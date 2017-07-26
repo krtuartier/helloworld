@@ -9,5 +9,6 @@ window.onload=function(){
 		array[parseInt(Math.random()*16)]+
 		array[parseInt(Math.random()*16)]+
 		array[parseInt(Math.random()*16)];
+		console.log(parseInt(Math.random()*16));
 	},200);
 }
