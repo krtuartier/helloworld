@@ -8,7 +8,8 @@ window.onload=function(){
 	txt+= "<p>User-agent language: " + navigator.systemLanguage + "</p>";
 	
 	document.getElementById("example").innerHTML=txt;
-	if(navigator.appVersion.indexOf('UCBrowser')>-1) {
+	var oUcb=navigator.appVersion+'';
+	if(oUcb.indexOf('UCBrowser')>-1) {
 		document.body.style.backgroundColor='#000000';
 		document.body.style.color='#FFFFFF';
 	}
