@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			.ww{
+				width: 500px;
+				height: 500px;
+				border: 5px solid #000;
+			}
+			.wrap{
+				width: 420px;
+				height: 420px;
+				position: relative;
+			}
+			.mask{
+				position: absolute;
+				top: 5px;
+				left: 5px;
+				width: 500px;
+				height: 500px;
+				line-height: 500px;
+				text-align: center;
+				font-size: 50px;
+				background-color: #fff;
+			}
+			.chicken{
+				position: absolute;
+				width: 80px;
+				height: 80px;
+				border-radius: 40px;
+				background-color: gold;
+				transition: 10s all linear;
+			}
+			.chicken img{
+				position: absolute;
+				top: 10%;
+				left: 10%;
+				width: 80%;
+				height: 80%;
+			}
+		</style>
+		<script type="text/javascript">
+				function Chicken(obj){
+					this.oChicken=obj;
+					this.timer=null;
+					this.oChicken.style.top=Math.random()*100+'%';
+					this.oChicken.style.left=Math.random()*100+'%';
+					this.oChicken.style.transform='rotateZ('+360*Math.random()+'deg)';
+				}
+				Chicken.prototype.move=function(){
+					this.oChicken.style.top=Math.random()*100+'%';
+					this.oChicken.style.left=Math.random()*100+'%';
+					this.oChicken.style.transform='rotateZ('+360*Math.random()+'deg)';
+					setTimeout(function(){
+						this.oChicken.style.top=Math.random()*100+'%';
+						this.oChicken.style.left=Math.random()*100+'%';
+						this.oChicken.style.transform='rotateZ('+360*Math.random()+'deg)';
+					}.bind(this),3000);
+					this.timer=setInterval(function(){
+						this.oChicken.style.top=Math.random()*100+'%';
+						this.oChicken.style.left=Math.random()*100+'%';
+						this.oChicken.style.transform='rotateZ('+360*Math.random()+'deg)';
+					}.bind(this),10000);
+				}
+			window.onload=function(){
+				var aChickens=document.querySelectorAll('.chicken');
+				for(var i=0,len=aChickens.length;i<len;i++){
+					new Chicken(aChickens[i]).move();
+				}
+				var start=3;
+				var oLoading=document.querySelector('.mask');
+				var handler=setInterval(function(){
+					start=parseInt(start)-1;
+					oLoading.innerHTML='Loading '+start+'s';
+					if (start<=0) {
+						oLoading.parentNode.removeChild(oLoading);
+						clearInterval(handler);
+					}
+				},1000);
+			}
+		</script>
+	</head>
+	<body>
+		<div class="ww">
+			<div class="wrap">
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+				<div class="chicken">
+					<img src="img/5f4d8701a18b87d6374a8ac4010828381e30fdb6.png"/>
+				</div>
+			</div>
+			<div class="mask">
+				Loading 3s
+			</div>
+		</div>
+	</body>
+</html>

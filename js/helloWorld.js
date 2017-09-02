@@ -6,7 +6,10 @@ window.onload=function(){
 	txt+= "<p>Platform: " + navigator.platform + "</p>";
 	txt+= "<p>User-agent header: " + navigator.userAgent + "</p>";
 	txt+= "<p>User-agent language: " + navigator.systemLanguage + "</p>";
-	document.getElementById("example").innerHTML=txt;
+	var oDiv=document.createElement('div');
+	oDiv.innerHTML=txt;
+	var oE=document.getElementById("example");
+	oE.appendChild(oDiv);
 	var oUcb=navigator.appVersion+'';
 	if(oUcb.indexOf('UCBrowser')>-1) {
 		document.body.style.backgroundColor='#000000';
