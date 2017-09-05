@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>简单的html5 File测试 for pic2base64</title>
+<style>
+</style>
+<script>
+    window.onload = function () {
+        var input = document.getElementById("fielinput");
+        var txshow = document.getElementById("txshow");
+        if (typeof (FileReader) === 'undefined') {
+            result.innerHTML = "抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！";
+            input.setAttribute('disabled', 'disabled');
+        } else {
+            input.addEventListener('change', readFile, false);
+            txshow.onclick = function () { input.click(); }
+        }
+
+
+    }
+    function readFile() {
+        var file = this.files[0];
+        //判断是否是图片类型
+        if (!/image\/\w+/.test(file.type)) {
+            alert("只能选择图片");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) { txshow.src = this.result; alert(this.result); }
+
+    
+    }
+
+</script>
+</head>
+<body>
+
+<input type="file" id="fielinput" >
+<img id="txshow" style="width:100px;height:100px;"/>
+</body>
+</html>
