@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			body{
+				background-color:#000000;
+			}
+			.canvas{
+				width: 600px;
+				margin: 50px auto;
+			}
+			#box{
+				background: #FFFFFF;
+			}
+			span{
+				background-color: #00008B;
+				color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oBox=document.getElementById('box');
+				var oc=oBox.getContext('2d');
+				var num=0;
+				var oImg=new Image();
+				oImg.src='img/person.png';
+				oImg.onload=function(){
+					var handler=null;
+					var degHandler=null;
+					var createBollHandler=null;
+					var createFrogBollHandler=null;
+//					var FrogBollMoveHandler=null;
+					var boll=[];
+					var frogBoll=[];
+					function pz(x1,y1,x2,y2){
+						var a=x1-x2;
+						var b=y1-y2;
+						var c=Math.sqrt(a*a+b*b);
+						if (c<40) {
+							return true;
+						} else{
+							return false;
+						}
+					}
+	//				boll[0]={
+	//					x:300,
+	//					y:0,
+	//					r:200,
+	//					deg:0,
+	//					iStartX:300,
+	//					iStartY:0
+	//				};
+					//boll auto create
+					createBollHandler=setInterval(function(){
+						boll.push({
+							x:300,
+							y:0,
+							r:200,
+							deg:0,
+							iStartX:300,
+							iStartY:0
+						})
+					},500);
+					//boll auto run
+					degHandler=setInterval(function(){
+						for (var i=0;i<boll.length;i++) {
+							boll[i].deg++;
+							if (boll[i].deg>=270) {
+								boll[i].r=150;
+								boll[i].iStartX=250;
+								boll[i].iStartY=50;
+							}
+							if (boll[i].deg>=270+180+1) {
+								alert('游戏结束');
+								location.replace(location);
+							}
+							var a=boll[i].r*Math.sin(boll[i].deg*Math.PI/180);
+							var b=boll[i].r*Math.cos(boll[i].deg*Math.PI/180);
+							boll[i].x=a+boll[i].iStartX;
+							boll[i].y=boll[i].r-b+boll[i].iStartY;
+//							console.log(boll[0].deg);
+						}
+						for (var i=0;i<frogBoll.length;i++) {
+							frogBoll[i].x+=frogBoll[i].x1*3;
+							frogBoll[i].y+=frogBoll[i].y1*3;
+						}
+						for (var i=0;i<boll.length;i++) {
+							for (var j=0;j<frogBoll.length;j++) {
+								if (pz(boll[i].x,boll[i].y,frogBoll[j].x,frogBoll[j].y)) {
+									boll.splice(i,1);
+									frogBoll.splice(j,1);
+									break
+								}
+							}
+						}
+					},1000/24);
+					//pic refresh
+					handler=setInterval(function(){
+						oc.clearRect(0,0,box.width,box.height);
+						oc.beginPath();
+						oc.arc(300,200,200,-.5*Math.PI,Math.PI,false);
+						oc.arc(250,200,150,Math.PI,0,false);
+						oc.stroke();
+						oc.beginPath();
+						oc.arc(400,200,20,0,2*Math.PI,false);
+						oc.stroke();
+						for (var i=0;i<boll.length;i++) {
+							oc.beginPath();
+							oc.arc(boll[i].x,boll[i].y,20,0,2*Math.PI,false);
+							oc.closePath();
+							oc.fill();
+						}
+						//frog
+						oc.save();
+						oc.beginPath();
+						oc.translate(300,200);
+						oc.rotate(iround);
+						oc.translate(-40,-40);
+						oc.drawImage(oImg,0,0);
+						oc.closePath();
+						oc.restore();
+						//frog boll
+						for (var i=0;i<frogBoll.length;i++) {
+							oc.save();
+							oc.beginPath();
+							oc.arc(frogBoll[i].x,frogBoll[i].y,20,0,2*Math.PI,false);
+							oc.closePath();
+							oc.fillStyle='red';
+							oc.fill();
+							oc.restore();
+						}
+					},1000/24);
+					var iround=0;
+					//frog head move by mouse
+					box.onmousemove=function(e){
+						e=e||event;
+						var x1=e.clientX-box.offsetLeft;
+						var y1=e.clientY-box.offsetTop;
+						var a=x1-300;
+						var b=y1-200;
+						var c=Math.sqrt(a*a+b*b);
+						if (a>0&&b>0) {
+							iround=Math.asin(b/c)+.5*Math.PI;
+						}else if (a>0&&b<0) {
+							iround=Math.asin(a/c);
+						}else if (a<0&&b>0) {
+							iround=-(Math.asin(b/c)+.5*Math.PI);
+						}else if (a<0&&b<0) {
+							iround=Math.asin(a/c);
+						}
+					}
+					box.onclick=function(e){
+						var e=e||event;
+						var x=e.clientX-box.offsetLeft;
+						var y=e.clientY-box.offsetTop;
+						var a=x-300;
+						var b=y-200;
+						var k=5;
+						var c=Math.sqrt(a*a+b*b);
+						var x1=k*a/c;
+						var y1=k*b/c;
+							frogBoll.push({
+								x:300,
+								y:200,
+								x1:x1,
+								y1:y1
+							})
+					}
+//					box.onmousedown=function(){
+//						createFrogBollHandler=setInterval(function(){
+//							oBox.onClick();
+//						},1);
+//					}
+//					box.onmouseup=function(e){
+//						clearInterval(createFrogBollHandler);
+//					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div class="canvas">
+			<canvas id="box" height="600" width="600">
+				<span>该浏览器不兼容</span>
+			</canvas>
+		</div>
+	</body>
+</html>

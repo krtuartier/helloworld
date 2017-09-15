@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			body{
+			}
+			#box{
+				/*background: #D12147;*/
+			}
+			span{
+				background-color: #00008B;
+				color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oBox=document.getElementById('box');
+				var oc=oBox.getContext('2d');
+				box.style.border='1px solid black';
+				box.style.backgroundColor='#FFFFFF';
+				box.onmousedown=function(e){
+					e=e||event;
+					var x=e.clientX-this.offsetLeft;
+					var y=e.clientY-this.offsetTop;
+					box.onmousemove=function(e){
+						e=e||event;
+						var moveX=e.clientX-this.offsetLeft;
+						var moveY=e.clientY-this.offsetTop;
+//						var r=Math.sqrt((moveX-x)*(moveX-x)-(moveY-y)*(moveY-y));
+						var r=moveX-x;
+						oc.beginPath();
+						oc.arc(x,y,r,2*Math.PI,false);
+						oc.closePath();
+						var color="rgba("+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+","+Math.floor(Math.random()*256)+",1)";
+						oc.fillStyle=color;
+						oc.fill();
+					}
+					box.onmouseup=function(){
+						box.onmousemove=null;
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="box" height="400" width="400">
+			<span>该浏览器不兼容</span>
+		</canvas>
+	</body>
+</html>

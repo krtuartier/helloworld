@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			#box{
+				background: #D12147;
+			}
+			span{
+				background-color: #00008B;
+				color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oBox=document.getElementById('box');
+				var oc=oBox.getContext('2d');
+				function toDraw(){
+					oc.clearRect(0,0,400,400);
+					var x=200;
+					var y=200;
+					var r=150;
+					oc.beginPath();
+					oc.arc(x,y,r,0,360*Math.PI/180,false);
+					for (var i=0;i<59;i++) {
+						oc.moveTo(x,y);
+						oc.arc(x,y,r,6*i*Math.PI/180,6*(i+1)*Math.PI/180,false);
+					}
+					oc.closePath();
+					oc.stroke();
+					oc.fillStyle='#D12147';
+					oc.beginPath();
+					oc.arc(x,y,r*19/20,0,360*Math.PI/180,false);
+					oc.closePath();
+					oc.fill();
+					oc.beginPath();
+					oc.arc(x,y,r,0,360*Math.PI/180,false);
+					for (var i=0;i<59;i++) {
+						oc.moveTo(x,y);
+						oc.arc(x,y,r,30*i*Math.PI/180,30*(i+1)*Math.PI/180,false);
+					}
+					oc.closePath();
+					oc.lineWidth=3;
+					oc.stroke();
+					oc.fillStyle='#D12147';
+					oc.beginPath();
+					oc.arc(x,y,r*18/20,0,360*Math.PI/180,false);
+					oc.closePath();
+					oc.fill();
+					oc.fillStyle='black';
+					oc.beginPath();
+					oc.arc(x,y,r*1/20,0,360*Math.PI/180,false);
+					oc.closePath();
+					oc.fill();
+					var hour=new Date().getHours();
+					var min=new Date().getMinutes();
+					var sec=new Date().getSeconds();
+					s=(-90+sec*6)*Math.PI/180;
+					m=(-90+(min+sec/60)*6)*Math.PI/180;
+					h=(-90+(hour+min/60)*30)*Math.PI/180;
+					oc.lineWidth=5;
+					oc.beginPath();
+					oc.moveTo(x,y);
+					oc.arc(x,y,r*.5,h,h,false);
+					oc.closePath();
+					oc.stroke();
+					
+					oc.lineWidth=3;
+					oc.beginPath();
+					oc.moveTo(x,y);
+					oc.arc(x,y,r*.7,m,m,false);
+					oc.closePath();
+					oc.stroke();
+					
+					oc.lineWidth=2;
+					oc.beginPath();
+					oc.moveTo(x,y);
+					oc.arc(x,y,r*.8,s,s,false);
+					oc.closePath();
+					oc.stroke();
+				}
+				setInterval(function(){
+					toDraw();
+				},1000);
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="box" height="400" width="400">
+			<span>该浏览器不兼容</span>
+		</canvas>
+	</body>
+</html>

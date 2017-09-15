@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			body{
+			}
+			#box{
+				/*background: #D12147;*/
+			}
+			span{
+				background-color: #00008B;
+				color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oBox=document.getElementById('box');
+				var oc=oBox.getContext('2d');
+				box.style.border='1px solid black';
+				box.style.backgroundColor='#FFFFFF';
+				var grd=oc.createLinearGradient(150,100,150,300);
+				grd.addColorStop(0,'red');
+				grd.addColorStop(.5,'green');
+				grd.addColorStop(1,'blue');
+				oc.fillStyle=grd;
+				oc.fillRect(100,100,200,200)
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="box" height="400" width="400">
+			<span>该浏览器不兼容</span>
+		</canvas>
+	</body>
+</html>

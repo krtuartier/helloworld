@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			#list li{
+				width: 100px;
+				height: 50px;
+				background-color:royalblue;
+			} 
+			.box{
+				width: 300px;
+				height: 300px;
+				background-color: #d8d8d8;
+			}
+			img{
+				width: 300px;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oList=document.getElementById('list');
+//				console.log(oList);
+				var oBox=document.getElementsByClassName('box')[0];
+//				console.log(oBox);
+				var aLi=oList.getElementsByTagName('li');
+				var oImg=document.getElementsByTagName('img')[0];
+//				console.log(oImg);
+				var i = 0;
+//				console.log(aLi);
+				for (var i=0;i<aLi.length;i++) {
+					aLi[i].index = i;
+						aLi[i].setAttribute('draggable',true);
+						aLi[i].ondragstart=function(e){
+							this.style.backgroundColor='indianred';
+							e.dataTransfer.setData('name',this.index);
+							e.dataTransfer.effectAllowed='copylink';
+							e.dataTransfer.setDragImage(oImg,0,0);
+						}
+						aLi[i].ondrag=function(){
+//							console.log(num++);
+						}
+						aLi[i].ondragend=function(){
+							this.style.backgroundColor='gold';
+						}
+				}
+				oBox.ondragenter=function(){
+					this.style.backgroundColor='pink';
+				}
+				oBox.ondragover=function(e){
+					this.style.backgroundColor='black';
+					e.preventDefault();
+				}
+				oBox.ondragleave=function(){
+					this.style.backgroundColor='purple';
+				}
+				oBox.ondrop=function(e){
+//					console.log(aLi[e.dataTransfer.getData('name')]);
+					oList.removeChild(aLi[e.dataTransfer.getData('name')]);
+					this.style.backgroundColor='gold';
+					for (var i=0;i<aLi.length;i++) {
+						aLi[i].index = i;
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<ul id="list">
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+		<div class="box">
+			
+		</div>
+		<img src="img/10.jpg"/>
+	</body>
+</html>

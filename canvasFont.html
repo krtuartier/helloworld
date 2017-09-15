@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			body{
+			}
+			#box{
+				/*background: #D12147;*/
+			}
+			span{
+				background-color: #00008B;
+				color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oBox=document.getElementById('box');
+				var oc=oBox.getContext('2d');
+				oc.fillStyle='red';
+				oc.lineWidth=2;
+				oc.strokeStyle='blue';
+				oc.font='60px 宋体';
+				oc.textBaseline='top';
+				oc.shadowOffsetX=10;
+				oc.shadowOffsetY=10;
+				oc.shadowBlur=5;
+				oc.shadowColor='#008000';
+				var ow=oc.measureText('文字').width;
+//				var oh=oc.measureText('文字').height;
+				oc.fillText('文字',(box.width-ow)/2,0);
+				oc.strokeText('文字',0,0);
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="box" height="400" width="400">
+			<span>该浏览器不兼容</span>
+		</canvas>
+	</body>
+</html>

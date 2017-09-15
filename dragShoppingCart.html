@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			li{ float:left; width:200px; border:1px #000 solid; margin:10px;}
+			li img{ width:200px;height: 260px; border-bottom:1px #333 solid;}
+			p{ height:20px; border-bottom:1px #333 dashed;}
+			#buy{ width:600px; border:1px #000 solid; height:300px; clear:both;}
+			.num{ float:left; width:200px;}
+			.title{ float:left; width:200px;}
+			.price{ float:left; width:200px;}
+			#allMoney{float: right;}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oList=document.getElementById('list');
+				var aLi=oList.getElementsByTagName('li');
+				var oBuy=document.getElementById('buy');
+				var oAllMoney=document.getElementById('allMoney');
+				var num=0;
+				var json={};
+				for (var i=0;i<aLi.length;i++) {
+					aLi[i].ondragstart=function(e){
+						var e=e||event;
+						var aP=this.getElementsByTagName('p');
+						e.dataTransfer.setData('title',aP[0].innerHTML);
+						e.dataTransfer.setData('price',aP[1].innerHTML);
+						e.dataTransfer.setDragImage(this,0,0);
+					}
+				}
+				oBuy.ondragover=function(e){
+					var e=e||event;
+					e.preventDefault();
+				}
+				oBuy.ondrop=function(e){
+					var oAM=document.getElementById('allMoney');
+					var e=e||event;
+					var oBuyPs=oBuy.getElementsByTagName('p');
+					var title=e.dataTransfer.getData('title');
+					var price=e.dataTransfer.getData('price');
+					num+=parseInt(price);
+					if (!json[title]) {
+						var oP = document.createElement('p');
+						var oSpan1 = document.createElement('span');
+						oSpan1.className = 'num';
+						oSpan1.innerHTML = 1;
+						oP.appendChild( oSpan1 );
+						var oSpan2 = document.createElement('span');
+						oSpan2.className = 'title';
+						oSpan2.innerHTML = title;
+						oP.appendChild( oSpan2 );
+						
+						var oSpan3 = document.createElement('span');
+						oSpan3.className = 'price';
+						oSpan3.innerHTML = price;
+						oP.appendChild( oSpan3 );
+						
+						oBuy.appendChild( oP );
+						
+						json[title] = 1;
+					}else{
+						var aNum = document.getElementsByClassName('num');
+						var aTitle = document.getElementsByClassName('title');
+						var aPrice = document.getElementsByClassName('price');
+						for (var i=0;i<aTitle.length;i++) {
+							if(aTitle[i].innerHTML==title){
+								aNum[i].innerHTML = parseInt(aNum[i].innerHTML) + 1;
+								aPrice[i].innerHTML = parseInt(aNum[i].innerHTML)*parseInt(price)+'￥';
+							}
+						}
+					}
+					if (!oAM) {
+						oAM = document.createElement('span');
+						oAM.id = 'allMoney';
+						oAM.innerHTML =num+'￥';
+						oBuy.appendChild( oAM );
+					}else{
+						oBuy.appendChild( oAM );
+						oAM.innerHTML =num+'￥';
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<ul id="list">
+			<li draggable="true">
+		    	<img src="img/img1.jpg" />
+		        <p>javascript语言精粹</p>
+		        <p>40￥</p>
+		    </li>
+		    <li draggable="true">
+		    	<img src="img/img2.jpg" />
+		        <p>javascript权威指南</p>
+		        <p>120￥</p>
+		    </li>
+		    <li draggable="true">
+		    	<img src="img/img3.jpg" />
+		        <p>精通javascript</p>
+		        <p>35￥</p>
+		    </li>
+		    <li draggable="true">
+		    	<img src="img/img4.jpg" />
+		        <p>DOM编程艺术</p>
+		        <p>45￥</p>
+		    </li>
+		</ul>
+		<div id="buy">
+			<!--<p>
+				<span class="num">1</span>
+				<span class="title">DOM编程艺术</span>
+				<span class="price">45￥</span>
+			</p>-->
+    		<!--<div id="allMoney">90￥</div>-->
+		</div>
+	</body>
+</html>

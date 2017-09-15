@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			#box{
+				background: #D12147;
+			}
+			span{
+				background-color: #00008B;
+				color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oBox=document.getElementById('box');
+				var oc=oBox.getContext('2d');
+				oc.lineJoin='round';
+				oBox.onmousedown=function(e){
+					var e=e||event;
+					var ox=e.clientX-oBox.offsetLeft;
+					var oy=e.clientY-oBox.offsetTop;
+					console.log(ox)
+					oc.moveTo(ox,oy);
+					document.onmousemove=function(e){
+						var e=e||event;
+						var ox1=e.clientX-oBox.offsetLeft;
+						var oy1=e.clientY-oBox.offsetTop;
+					console.log(ox1)
+						oc.lineTo(ox1,oy1);
+						oc.stroke();
+					}
+					document.onmouseup=function(e){
+						document.onmousemove=document.onmouseup=null;
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="box" height="400" width="400">
+			<span>该浏览器不兼容</span>
+		</canvas>
+	</body>
+</html>

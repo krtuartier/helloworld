@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			#box{
+				background: #D12147;
+			}
+			span{
+				background-color: #00008B;
+				color: #ffffff;
+			}
+			.canvas_wrap{
+				width: 640px;
+				height: 360px;
+			}
+			.wrap{
+				width: 640px;
+				overflow: hidden;
+				background-color: cornflowerblue;
+			}
+			.playtime,.videotime{
+				width: 64px;
+			}
+			input{
+				height: 22px;
+				background-color: #fff;
+				outline: none;
+				border: none;
+				color: cornflowerblue;
+				float: left;
+				border: 1px solid cornflowerblue;
+			}
+			#jd{
+				float: left;
+				width: 285px;
+				border: 6px solid cornflowerblue;
+				height: 10px;
+				background-color: #d8d8d8;
+				border-left: 1px solid cornflowerblue;
+				border-right: 1px solid cornflowerblue;
+				border-radius: 10px;
+				position: relative;
+			}
+			#jdt{
+				cursor: pointer;
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				top: -5px;
+				left: 0;
+				border-radius: 50%;
+				background-color: #D12147;
+			}
+			#vd{
+				position: absolute;
+				top: -9999px;
+				left: -9999px;
+				width: 0;
+				height: 0;
+			}
+			#volume_O{
+				cursor: pointer;
+				width: 20px;
+				height: 20px;
+				position: absolute;
+				top: -5px;
+				left: 80px;
+				border-radius: 50%;
+				background-color: #D12147;
+			}
+			#volume{
+				float: left;
+				width: 100px;
+				border: 6px solid cornflowerblue;
+				height: 10px;
+				background-color: #d8d8d8;
+				border-left: 1px solid cornflowerblue;
+				border-right: 1px solid cornflowerblue;
+				position: relative;
+				border-radius: 10px;
+			}
+			.point{
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				background-color: #FFFFFF;
+				position: absolute;
+				top: 5px;
+				left: 5px;
+			}
+		</style>
+		<!--<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../jquery_utils.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript">
+			window.onload=function(){
+				var oVd=document.getElementById('vd');
+				var aBtns=document.getElementsByTagName('input');
+				var oJd=document.getElementById('jd');
+				var oJdt=document.getElementById('jdt');
+				var oVolume=document.getElementById('volume');
+				var oVolumeO=document.getElementById('volume_O');
+				var playing=null;
+				var oCvWrap=document.querySelector('.canvas_wrap');
+				var oCv=document.getElementById('cv');
+				var ctx=oCv.getContext('2d');
+				oCv.width=oCvWrap.clientWidth;
+				oCv.height=oCvWrap.clientHeight;
+				setInterval(function(){
+//					JavaScript 语法 1
+//					在画布上定位图像：
+//					context.drawImage(img,x,y);
+//					JavaScript 语法 2
+//					在画布上定位图像，并规定图像的宽度和高度：
+//					context.drawImage(img,x,y,width,height);
+//					JavaScript 语法 3
+//					剪切图像，并在画布上定位被剪切的部分：
+//					context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+					ctx.drawImage(oVd,0,0,oCvWrap.clientWidth,oCvWrap.clientHeight);
+				},1000/60);
+				aBtns[0].onclick=function(){
+					if (oVd.paused) {
+						oVd.play();
+						aBtns[0].value='暂停';
+					}else{
+						oVd.pause();
+						aBtns[0].value='播放';
+					}
+					progress();
+				}
+				var timeStart=setInterval(function(){
+					if (isNaN(oVd.duration)) {
+						aBtns[1].value=totime(oVd.currentTime);
+						aBtns[2].value=totime(oVd.duration);
+					} else{
+						aBtns[1].value=totime(oVd.currentTime);
+						aBtns[2].value=totime(oVd.duration);
+						clearInterval(timeStart);
+					}
+				},1);
+				setInterval(nowtime,1000);
+				function nowtime(){
+					aBtns[1].value=totime(oVd.currentTime);
+				}
+				function totime(time){
+					var iH=parseInt(time/3600);
+					var iM=parseInt(time%3600/60);
+					var iS=parseInt(time%3600%60);
+//					console.log(iH+':'+iM+':'+iS);
+					return zero(iH)+':'+zero(iM)+':'+zero(iS);
+				}
+				function zero(num){
+					if (num<=9) {
+						return '0'+num;
+					}else{
+						return ''+num;
+					}
+				}
+				aBtns[3].onclick=function(){
+					if (oVd.muted) {
+						oVd.volume=1;
+						oVd.muted=false;
+						aBtns[3].value='静音';
+						oVolumeO.style.left=oVolume.clientWidth-oVolumeO.clientWidth+'px';
+					} else{
+						oVd.volume=0;
+						oVd.muted=true;
+						aBtns[3].value='取消';
+						oVolumeO.style.left=0;
+					}
+				}
+				aBtns[4].onclick=function(){
+					oVd.webkitRequestFullScreen();
+					oVd.mozRequestFullScreen();
+					oVd.msRequestFullscreen();
+				}
+//				console.log(oJdt.offsetLeft);
+//				console.log(oJd.clientWidth);
+				function progress(){
+					if (!oVd.paused) {
+//						console.log(oVd.paused);
+						playing=setInterval(function(){
+							var percent=oJd.clientWidth-oJdt.clientWidth;
+							oJdt.style.left=((oVd.currentTime/oVd.duration)*percent)+'px';
+							if (oVd.paused) {
+								aBtns[0].value='播放';
+								clearInterval(playing);
+							}
+						},1);
+					}else{
+//						console.log(oVd.paused);
+						clearInterval(playing);
+					}
+				}
+//				console.log(oVd.volume);
+				progress();
+				oJdt.onmousedown=function(e){
+					e=e||event;
+					var disX=e.clientX-oJdt.offsetLeft;
+					document.onmousemove=function(e){
+						e=e||event;
+						var left=e.clientX-disX;
+//						console.log(left);
+						if (left<0) {
+							left=0;
+						} else if (left>oJd.clientWidth-oJdt.clientWidth) {
+							left=oJd.clientWidth-oJdt.clientWidth;
+						}
+						oJdt.style.left=left+'px';
+						oVd.currentTime=(left/(oJd.clientWidth-oJdt.clientWidth))*oVd.duration;
+						if (e.preventDefault()) {
+							e.preventDefault();
+						} else{
+							return false;
+						}
+					}
+					document.onmouseup=function(){
+						document.onmousemove=document.onmouseup=null;
+					}
+				}
+				oJd.onclick=function(e){
+					e=e||event;
+					var disX=e.clientX-oJd.offsetLeft;
+					disX=disX-10;
+					if (disX<0) {
+						disX=0;
+					} else if (disX>oJd.clientWidth-oJdt.clientWidth) {
+						disX=oJd.clientWidth-oJdt.clientWidth;
+					}
+					oJdt.style.left=disX+'px';
+					oVd.currentTime=(disX/(oJd.clientWidth-oJdt.clientWidth))*oVd.duration;
+				}
+				oVolumeO.onmousedown=function(e){
+					e=e||event;
+					var disX=e.clientX-oVolumeO.offsetLeft;
+					document.onmousemove=function(e){
+						e=e||event;
+						var left=e.clientX-disX;
+//						console.log(left);
+						if (left<0) {
+							left=0;
+						} else if (left>oVolume.clientWidth-oVolumeO.clientWidth) {
+							left=oVolume.clientWidth-oVolumeO.clientWidth;
+						}
+						if (left==0) {
+							oVd.muted=true;
+							aBtns[3].value='取消';
+						}else{
+							oVd.muted=false;
+							aBtns[3].value='静音';
+						}
+						oVolumeO.style.left=left+'px';
+						oVd.volume=left/(oVolume.clientWidth-oVolumeO.clientWidth);
+						if (e.preventDefault()) {
+							e.preventDefault();
+						} else{
+							return false;
+						}
+					}
+					document.onmouseup=function(){
+						document.onmousemove=document.onmouseup=null;
+					}
+				}
+				oVolume.onclick=function(e){
+					e=e||event;
+					var disX=e.clientX-oVolume.offsetLeft;
+				 	var disX=disX-10;
+					if (disX<0) {
+						disX=0;
+					} else if (disX>oVolume.clientWidth-oVolumeO.clientWidth) {
+						disX=oVolume.clientWidth-oVolumeO.clientWidth;
+					}
+					if (disX==0) {
+						oVd.muted=true;
+						aBtns[3].value='取消';
+					}else{
+						oVd.muted=false;
+						aBtns[3].value='静音';
+					}
+					oVolumeO.style.left=disX+'px';
+					oVd.volume=disX/(oVolume.clientWidth-oVolumeO.clientWidth);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div class="canvas_wrap">
+			<canvas id="cv" width="" height=""></canvas>
+		</div>
+		<video id="vd">
+			<source src="img/终わりの世界から.mp4" type="video/mp4"></source>
+		</video>
+		<div class="wrap">
+			<input type="button" value="播放" />
+			<div id="jd">
+				<div id="jdt">
+					<p class="point"></p>
+				</div>
+			</div>
+			<input class="playtime" type="button" value="00:00:00" />
+			<input class="videotime" type="button" value="00:00:00" />
+			<input type="button" value="静音" />
+			<div id="volume">
+				<div id="volume_O">
+					<p class="point"></p>
+				</div>
+			</div>
+			<input type="button" value="全屏" />
+		</div>
+	</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#box{
+				width: 780px;
+				height: 396px;
+				background: url(img/bg.jpg) no-repeat;
+				margin: 10px auto;
+			}
+			body{
+				background: #000;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var svgNS='http://www.w3.org/2000/svg';
+				var oBox=document.getElementById('box');
+				var centerx=oBox.offsetWidth/2;
+				var centery=oBox.offsetHeight/2;
+				
+				
+				var data={
+					centerNode:{text:'科鲁兹'},
+					otherNode:[
+						{x:100,y:100,text:'易车网'},
+						{x:200,y:50,text:'二手车'},
+						{x:600,y:50,text:'二手车'}
+					]
+				}
+				
+				function creatTag(tag,objattr){
+					var oTag=document.createElementNS(svgNS,tag);
+					for(var att in objattr){
+						oTag.setAttribute(att,objattr[att]);	
+					}
+					
+					return oTag;
+				}
+				
+				
+				function centerNode(){
+					var oSvg=creatTag('svg',{'xmlns':'http://www.w3.org/2000/svg','version':'1.1','width':'100%','height':'100%'});
+					for(var i=0;i<data.otherNode.length;i++){
+						otherNode(data.otherNode[i],oSvg);
+					}
+					
+					
+					var oG=creatTag('g',{'style':'cursor: pointer;'});
+					
+					var oCircle=creatTag('circle',{'cx':centerx,'cy':centery,'r':'60','fill':'#fff','stroke':'red','stroke-width':'2'});
+					var otext=creatTag('text',{'x':centerx,'y':centery+8,'font-size':'20','text-anchor':'middle'});
+					otext.innerHTML=data.centerNode.text;
+					
+					oSvg.appendChild(oG);
+					oG.appendChild(oCircle);
+					oG.appendChild(otext);
+					oBox.appendChild(oSvg);
+					
+				}
+				
+				centerNode();
+				
+				function otherNode(otherattr,oSvg){
+					var oG=creatTag('g',{'style':'cursor: pointer;'});
+					var oLine1=creatTag('line',{'x1':otherattr.x,'y1':otherattr.y,'x2':centerx,'y2':centery,'stroke':'#ccc'});
+					var oLine2=creatTag('line',{'x1':otherattr.x,'y1':otherattr.y,'x2':centerx,'y2':centery,'stroke':'transparent','stroke-width':'10'});
+					var oRect=creatTag('rect',{'x':(otherattr.x+centerx)/2-10,'y':(otherattr.y+centery)/2-10,'width':'20','height':'20','fill':'#d8d8d8','rx':'3'});
+					var oText1=creatTag('text',{'x':(otherattr.x+centerx)/2,'y':(otherattr.y+centery)/2+8,'font-size':'20','text-anchor':'middle','fill':'#fff'});
+					oText1.innerHTML='?';
+					
+					oSvg.appendChild(oG);
+					oG.appendChild(oLine1);
+					oG.appendChild(oLine2);
+					oG.appendChild(oRect);
+					oG.appendChild(oText1);
+					oBox.appendChild(oSvg);
+					
+					var oG2=creatTag('g',{'style':'cursor: pointer;'});
+					
+					var oCircle2=creatTag('circle',{'cx':otherattr.x,'cy':otherattr.y,'r':'40','fill':'#fff','stroke':'red','stroke-width':'2'});
+				
+					var otext2=creatTag('text',{'x':otherattr.x,'y':otherattr.y+8,'font-size':'20','text-anchor':'middle'});
+					
+					otext2.innerHTML=otherattr.text;
+					
+					oSvg.appendChild(oG2);
+					oG2.appendChild(oCircle2);
+					oG2.appendChild(otext2);
+					oBox.appendChild(oSvg);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		
+		<div id="box">
+			<!--<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
+				<g style="cursor: pointer;">
+					<line x1="100" y1="100" x2="390" y2="200" stroke="#ccc"></line>
+					<line x1="100" y1="100" x2="390" y2="200" stroke="transparent" stroke-width="10"></line>
+					<rect x="235" y="140" width="20" height="20" fill="#d8d8d8" rx="5"></rect>
+					<text x="245" y="158" font-size="20" text-anchor="middle" fill="#fff">?</text>
+				</g>
+				<g style="cursor: pointer;">
+					<circle cx="100" cy="100" r="40" fill="#fff" stroke="red" stroke-width="2"></circle>
+					<text x="100" y="108" font-size="20" text-anchor="middle">易车网</text>
+				</g>
+				<g style="cursor: pointer;">
+					<circle cx="390" cy="200" r="60" fill="#fff" stroke="red" stroke-width="2"></circle>
+					<text x="390" y="208" font-size="20" text-anchor="middle">科鲁兹</text>
+				</g>
+			</svg>-->
+		</div>
+	</body>
+</html>

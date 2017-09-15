@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			textarea{
+				resize: none;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oUser=document.getElementById('username');
+				var oPwd=document.getElementById('password');
+				var oBtn=document.getElementById('btn');
+				oBtn.onclick=function(){
+					var login={'username':oUser.value,'password':oPwd.value};
+					login=JSON.stringify(login);
+					var dataJson=window.localStorage.getItem('list');
+					var success=null;
+					dataJson=eval('('+dataJson+')');
+					for (var i=0;i<dataJson.length;i++) {
+						if (JSON.stringify(dataJson[i])==login) {
+							alert('登陆成功');
+							success=1;
+						}
+					}
+					if (success==null) {
+						alert('用户名或密码错误');
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<form action="" method="post">
+			用户名：<input type="text" id="username" /><br />
+			密码：<input type="password" id="password" /><br />
+			<input type="button" id="btn" value="登陆" />
+		</form>
+	</body>
+</html>

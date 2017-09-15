@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<style type="text/css">
+			#box{
+				/*background: #D12147;*/
+			}
+			span{
+				background-color: #00008B;
+				color: #ffffff;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oBox=document.getElementById('box');
+				var oc=oBox.getContext('2d');
+				var oImg=new Image();
+				oImg.src='img/139-1511161J207.jpg';
+				oImg.onload=function(){
+					hua(this);
+				}
+//				function hua(obj){
+//					var bg=oc.drawImage(obj,0,0,400,225);
+//				}
+				function hua(obj){
+					var bg=oc.createPattern(obj,'repeat');
+					oc.scale(.2,.2);
+					oc.fillStyle=bg;
+					oc.fillRect(0,0,1920,1080);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="box" height="400" width="400">
+			<span>该浏览器不兼容</span>
+		</canvas>
+	</body>
+</html>
