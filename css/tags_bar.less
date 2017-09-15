@@ -1,0 +1,150 @@
+@r: 100rem;
+.nav{
+    width: 100%;
+    height: 100/@r;
+    position: fixed;
+    ul{
+        margin: 0;
+        width: 100%;
+        height: 100/@r;
+        li{
+            text-align: center;
+            width: 25%;
+            height: 100/@r;
+            line-height: 100/@r;
+            float: left;
+            background: gainsboro;
+            font-weight: bold;
+        }
+        .active{
+            color: #004FB6;
+        }
+    }
+}
+.section_wrap{
+    width: 400%;
+    height: 100%;
+    padding-top: 100/@r;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    .section{
+        width: 25%;
+        height: 100%;
+        text-align: center;
+        float: left;
+    }
+    .section:nth-child(1){
+        background-color: plum;
+    }
+    .section:nth-child(2){
+        overflow: hidden;
+        position: relative;
+        .section2_nav{
+            width: 100%;
+            height: 100/@r;
+            position: fixed;
+            ul{
+                margin: 0;
+                width: 100%;
+                height: 100/@r;
+                li{
+                    text-align: center;
+                    width: 25%;
+                    height: 100/@r;
+                    line-height: 100/@r;
+                    float: left;
+                    background: gainsboro;
+                    font-weight: bold;
+                }
+                .active{
+                    color: #004FB6;
+                }
+            }
+        }
+        .section2_wrap{
+            width: 400%;
+            height: 100%;
+            padding-top: 100/@r;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            .section2_section{
+                width: 25%;
+                height: 100%;
+                text-align: center;
+                float: left;
+            }
+            .section2_section:nth-child(1){
+                background-color: aqua;
+            }
+            .section2_section:nth-child(2){
+                background-color: silver;
+            }
+            .section2_section:nth-child(4){
+                background-color: gold;
+            }
+            .section2_section:nth-child(3){
+                position: relative;
+                overflow: hidden;
+                .section2_section4_nav{
+                    width: 100%;
+                    height: 100/@r;
+                    position: fixed;
+                    ul{
+                        margin: 0;
+                        width: 100%;
+                        height: 100/@r;
+                        li{
+                            text-align: center;
+                            width: 25%;
+                            height: 100/@r;
+                            line-height: 100/@r;
+                            float: left;
+                            background: gainsboro;
+                            font-weight: bold;
+                        }
+                        .active{
+                            color: #004FB6;
+                        }
+                    }
+                }
+                .section2_section4_wrap{
+                    width: 400%;
+                    height: 100%;
+                    padding-top: 100/@r;
+                    box-sizing: border-box;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    .section2_section4_section{
+                        width: 25%;
+                        height: 100%;
+                        text-align: center;
+                        float: left;
+                    }
+                    .section2_section4_section:nth-child(1){
+                        background-color: orange;
+                    }
+                    .section2_section4_section:nth-child(2){
+                        background-color: purple;
+                    }
+                    .section2_section4_section:nth-child(3){
+                        background-color: cornflowerblue;
+                    }
+                    .section2_section4_section:nth-child(4){
+                        background-color: forestgreen
+                    }
+                }
+            }
+        }
+    }
+    .section:nth-child(3){
+        background-color: brown;
+    }
+    .section:nth-child(4){
+        background-color: greenyellow;
+    }
+}

@@ -1,56 +1,42 @@
-@r: 100rem;
+@r:50rem;
+
 a,
 input,
 button {
-	/*清除点击阴影*/
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    /*清除点击阴影*/
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
 input,
 button {
-	/*清除按钮的圆角*/
-	-webkit-appearance: none;
-	border-radius: 0;
+    /*清除按钮的圆角*/
+  -webkit-appearance: none;
+  border-radius: 0;
 }
-
 body {
-	/*选中文字设置*/
-	margin: 0;
-	-webkit-user-select: none;
-	-webkit-text-size-adjust: 100%;
-	position: relative;
-	width: 100%;
-	height: 100%;
+    /*选中文字设置*/
+  margin: 0;
+  -webkit-user-select: none;
+  -webkit-text-size-adjust: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
-
-html {
-	width: 100%;
-	height: 100%;
+html{
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
 }
-
 body * {
-	/*文字设置*/
-	-webkit-user-select: none;
-	font-family: Helvetica;
+    /*文字设置*/
+  -webkit-user-select: none;
+  font-family: Helvetica;
 }
-
-//清除浮动
+/*清除浮动*/
 .clearfix:after {
-	clear: both;
-	content: '';
-	display: block;
+    clear: both;
+    content: '';
+    display: block;
 }
-
-a,a:hover,a:active,a:link,a:visited{
-	text-decoration: none;
-}
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0;
-	padding: 0;
+a {
+    text-decoration: none;
 }

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<!--qq浏览器下是否可以全屏-->
+		<!--<meta name="x5-fullscreen" content="true" />-->
+		<!--UC浏览器下是否可以全屏-->
+		<!--<meta name="full-screen" content="yes">-->
+		<meta charset="utf-8">
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<meta name="screen-orientation" content="portrait">
+		<meta name="x5-orientation" content="portrait">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no,width=device-width,height=device-height" />
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="css/mobile_reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/tags_bar.css"/>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/utils.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+//------------------------------------------------------------------------------------------------------------------
+			/**
+			 * 
+			 * @TagsBar mobile SPA
+			 */
+			(function($) {
+				$.fn.TagsBar = function(options) {
+					var opts = $.extend({}, $.fn.TagsBar.defaults, options);
+					return this.each(function() {
+						var $tagsbar = $(this); //导航选项卡
+						var controlObj = $tagsbar.find('li'); //导航选项卡的选项li
+						var sectionWrap=opts.sectionWrap?opts.sectionWrap:$tagsbar.next();//默认下一个元素为翻页的wrap
+						var section=sectionWrap.children();//一个section页面
+						var vPer=100/controlObj.length;//选项个数百分比
+						//设置nav的zIndex在section之上
+						var sectionWrapZI=parseInt(sectionWrap.css('zIndex'));
+						isNaN(sectionWrapZI)?$tagsbar.css('zIndex',1):$tagsbar.css('zIndex',sectionWrapZI+1);
+						
+						var childrenSectionWrapIndex=opts.childrenSectionWrap?opts.childrenSectionWrap.parent().index():null;
+						sectionWrap.attr('touchOpen',true);
+						sectionWrap.attr('grand',false);
+						sectionWrap.attr('little',false);
+						sectionWrap.attr('common',false);
+						if (!opts.parentSectionWrap){sectionWrap.attr('grand',true);}
+						if (!opts.childrenSectionWrap){sectionWrap.attr('little',true);}
+						if (opts.parentSectionWrap&&opts.childrenSectionWrap){sectionWrap.attr('common',true);}
+						var iW = $(window).width(); //屏幕的宽度
+						var iNow = 0; //第几张
+						var iStartx = 0; //初始位置
+						var iScroll = 0; //滚动距离
+						var iStartScroll = 0; //初始滚动距离
+						var oNavB = $('<b class="active_border"></b>');
+						$tagsbar.append(oNavB);
+						oNavB.css({
+							'width': vPer+'%',
+							'left': '0',
+							'display': 'block',
+							'position': 'absolute',
+							'height': '0.05rem',
+							'background-color': opts.barColor,
+							'bottom': '0'
+						});
+						controlObj.each(function(){
+							$(this).click(function(){
+								var oLiIndex=$(this).index();
+								controlObj.removeClass('active');
+								$(this).addClass('active');
+								sectionWrap.stop().animate({
+									'left': 0-oLiIndex*100+'%'
+								}, opts.speed);
+								iNow=oLiIndex;
+								iScroll=-oLiIndex*iW;
+								iStartScroll=-oLiIndex*iW;
+								oNavB.stop().animate({
+									'left': oLiIndex*vPer+'%'
+								}, opts.speed);
+								pageIndex(iNow);
+							});
+						});
+						sectionWrap.on('touchstart', function(e) {
+							var touch = e.originalEvent.targetTouches[0];
+							iStartx = touch.pageX;
+							iStartScroll = iScroll;
+						});
+						sectionWrap.on('touchmove', function(e) {
+							var touch = e.originalEvent.targetTouches[0];
+							var dix = touch.pageX - iStartx;
+							iScroll = iStartScroll + dix;
+							iNow = -iScroll / iW;
+							touchOpenFn(dix);
+							if (sectionWrap.attr('touchOpen')!='true') {
+								iNow=sectionWrap.attr('page');
+								iScroll=-iNow*iW;
+								iStartScroll=-iNow*iW;
+								return;
+							}
+							sectionWrap.css({
+								'left': 0-iNow*100+'%'
+							}, opts.speed);
+							oNavB.css({
+								'left': iNow*vPer+'%'
+							}, opts.speed);
+						});
+						sectionWrap.on('touchend', function(e) {
+							var touch = e.originalEvent.changedTouches[0];
+							var dix = touch.pageX - iStartx;
+							iScroll = iStartScroll + dix;
+							iNow = -iScroll / iW;
+							iNow = (iNow - parseInt(iNow)) >= 0.5 ? Math.ceil(iNow) : Math.floor(iNow);
+							if(iNow < 0) {
+								iNow = 0
+							} else if(iNow > section.length - 1) {
+								iNow = section.length - 1;
+							}
+							iScroll = -iNow * iW;
+							if (sectionWrap.attr('touchOpen')!='true') {
+								iNow=sectionWrap.attr('page');
+								iScroll=-iNow*iW;
+								iStartScroll=-iNow*iW;
+								return;
+							}
+							sectionWrap.stop().animate({
+								'left': 0-iNow*100+'%'
+							}, opts.speed);
+							oNavB.stop().animate({
+								'left': iNow*vPer+'%'
+							}, opts.speed);
+							controlObj.removeClass('active');
+							controlObj.eq(iNow).addClass('active');
+							pageIndex(iNow);
+							
+						});
+						function pageIndex(iNow){
+							sectionWrap.attr('page',iNow);
+						}
+						function touchOpenFn(x){
+							if (childrenSectionWrapIndex==sectionWrap.attr('page')) {
+								sectionWrap.attr('nest',true);
+							}else{
+								sectionWrap.attr('nest',false);
+							}
+							if(opts.parentSectionWrap){
+								if(sectionWrap.attr('page')==0&&x>0){
+									sectionWrap.attr('touchOpen',false);
+								}else if(sectionWrap.attr('page')==sectionWrap.children().length-1&&x<0){
+									sectionWrap.attr('touchOpen',false);
+								} else{
+									sectionWrap.attr('touchOpen',true);
+								}
+							}
+							if (opts.childrenSectionWrap&&sectionWrap.attr('nest')=='true') {
+								if (sectionWrap.attr('grand')=='true'&&opts.childrenSectionWrap.attr('nest')=='true') {
+									sectionWrap.attr('touchOpen',false);
+								}else{
+									if(opts.childrenSectionWrap.attr('page')==0&&x>0){
+										sectionWrap.attr('touchOpen',true);
+									}else if(opts.childrenSectionWrap.attr('page')==opts.childrenSectionWrap.children().length-1&&x<0){
+										sectionWrap.attr('touchOpen',true);
+									} else{
+										sectionWrap.attr('touchOpen',false);
+									}
+								}
+							}
+						}
+						pageIndex(iNow);
+					});
+				};
+				$.fn.TagsBar.defaults = {
+					sectionWrap:null,
+					childrenSectionWrap:null,
+					parentSectionWrap:null,
+					barColor:'#004FB6',
+					speed:200
+				};
+				$.fn.TagsBar.setDefaults = function(settings) {
+					$.extend($.fn.TagsBar.defaults, settings);
+				};
+			})(jQuery);
+//-------------------------------------------------------------------------------------------------------------------
+			$(function() {
+				$('.nav').TagsBar({
+					sectionWrap:$('.section_wrap'),
+					childrenSectionWrap:$('.section2_wrap')
+				});
+				$('.section2_nav').TagsBar({
+					sectionWrap:$('.section2_wrap'),
+					parentSectionWrap:$('.section_wrap'),
+					childrenSectionWrap:$('.section2_section4_wrap')
+				});
+				$('.section2_section4_nav').TagsBar({
+					sectionWrap:$('.section2_section4_wrap'),
+					parentSectionWrap:$('.section2_wrap')
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<nav class="nav">
+			<ul class="list-unstyled">
+				<li class="active">第一页</li>
+				<li>第二页</li>
+				<li>第三页</li>
+				<li>第四页</li>
+			</ul>
+		</nav>
+		<section class="section_wrap">
+			<section class="section">
+				<h1 class="page-header">1</h1>
+				<p>1</p>
+				<p>1</p>
+				<p>1</p>
+				<p>1</p>
+				<p>1</p>
+			</section>
+			<section class="section">
+				<nav class="section2_nav">
+					<ul class="list-unstyled">
+						<li class="active">aaa</li>
+						<li>bbb</li>
+						<li>ccc</li>
+						<li>ddd</li>
+					</ul>
+				</nav>
+				<section class="section2_wrap">
+					<section class="section2_section">AAA</section>
+					<section class="section2_section">BBB</section>
+					<section class="section2_section">
+						<nav class="section2_section4_nav">
+							<ul class="list-unstyled">
+								<li class="active">z</li>
+								<li>x</li>
+								<li>c</li>
+								<li>v</li>
+							</ul>
+						</nav>
+						<section class="section2_section4_wrap">
+							<section class="section2_section4_section">Z</section>
+							<section class="section2_section4_section">X</section>
+							<section class="section2_section4_section">C</section>
+							<section class="section2_section4_section">V</section>
+						</section>
+					</section>
+					<section class="section2_section">DDD</section>
+				</section>
+			</section>
+			<section class="section">
+				<h1 class="page-header">3</h1>
+				<p>3</p>
+				<p>3</p>
+				<p>3</p>
+				<p>3</p>
+				<p>3</p>
+			</section>
+			<section class="section">
+				<h1 class="page-header">4</h1>
+				<p>4</p>
+				<p>4</p>
+				<p>4</p>
+				<p>4</p>
+				<p>4</p>
+			</section>
+		</section>
+	</body>
+</html>
