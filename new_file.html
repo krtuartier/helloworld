@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/mobile_reset.css"/>
+		<style type="text/css">
+			.wrap{
+				width: 90%;
+				height: 90%;
+				overflow: hidden;
+				position: fixed;
+				top: 5%;
+				left: 5%;
+				background-color: #df012a;
+			}
+			.header{
+				transition: all 1s ease-in-out;
+				width: 750px;
+				height: 750px;
+				transform: rotateZ(-45deg);
+				transform-origin: left top;
+				position: absolute;
+				top: 0;
+				left: -10%;
+				background-color: #fb4a29;
+			}
+			.open{
+				width: 200px;
+				height: 200px;
+				border-radius: 100px;
+				background: gold;
+				position: absolute;
+				bottom: -100px;
+				left: -100px;
+			}
+			.money{
+				position: absolute;
+				display: block;
+				width: 200px;
+				height: 200px;
+				text-align: center;
+				line-height: 200px;
+				font-size: 100px;
+				transform: rotateZ(45deg);
+				color: #fff;
+			}
+			.get{
+				font-size: 50px;
+				color: #fff;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload=function(){
+				var oWrap=document.querySelector('.wrap');
+				var oHeader=document.querySelector('.header');
+				oWrap.onclick=function(){
+					oHeader.style.top='-100%';
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<section class="wrap">
+			<section class="header">
+				<div class="open">
+					<i class="money">
+						￥
+					</i>
+				</div>
+			</section>
+			<p class="get">恭喜100000元大奖</p>
+		</section>
+	</body>
+</html>
