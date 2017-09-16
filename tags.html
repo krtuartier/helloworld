@@ -108,12 +108,13 @@
 							});
 						});
 						//触摸移动页面控制
-						sectionWrap.on('touchstart', function(e) {
+						sectionWrap.bind('touchstart', function(e) {
+							e.preventDefault();
 							var touch = e.originalEvent.targetTouches[0];
 							iStartx = touch.pageX;
 							iStartScroll = iScroll;
 						});
-						sectionWrap.on('touchmove', function(e) {
+						sectionWrap.bind('touchmove', function(e) {
 							e.preventDefault();
 							var touch = e.originalEvent.targetTouches[0];
 							var dix = touch.pageX - iStartx;
@@ -131,7 +132,7 @@
 								'left': iNow*vPer+'%'
 							});
 						});
-						sectionWrap.on('touchend', function(e) {
+						sectionWrap.bind('touchend', function(e) {
 							var touch = e.originalEvent.changedTouches[0];
 							var dix = touch.pageX - iStartx;
 							if ((sectionWrap.attr('page')==0&&dix>0)||(sectionWrap.attr('page')==section.length-1&&dix<0)) {
