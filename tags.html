@@ -16,7 +16,7 @@
 		<title>Document</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
 		<link rel="stylesheet" type="text/css" href="css/mobile_reset.css"/>
-		<link rel="stylesheet" type="text/css" href="css/tags_bar.css"/>
+		<link rel="stylesheet" type="text/css" href="css/tags.css"/>
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/utils.js" type="text/javascript" charset="utf-8"></script>
@@ -24,11 +24,11 @@
 //------------------------------------------------------------------------------------------------------------------
 			/**
 			 * 
-			 * @TagsBar mobile SPA
+			 * @Tags mobile SPA
 			 */
 			(function($) {
-				$.fn.TagsBar = function(options) {
-					var opts = $.extend({}, $.fn.TagsBar.defaults, options);
+				$.fn.Tags = function(options) {
+					var opts = $.extend({}, $.fn.Tags.defaults, options);
 					return this.each(function() {
 						var $tagsbar = $(this); //导航选项卡
 						var controlObj = $tagsbar.find('li'); //导航选项卡的选项li
@@ -170,38 +170,27 @@
 						pageIndex(iNow);
 					});
 				};
-				$.fn.TagsBar.defaults = {
+				$.fn.Tags.defaults = {
 					sectionWrap:null,
 					barColor:'#004FB6',
 					speed:200
 				};
-				$.fn.TagsBar.setDefaults = function(settings) {
-					$.extend($.fn.TagsBar.defaults, settings);
+				$.fn.Tags.setDefaults = function(settings) {
+					$.extend($.fn.Tags.defaults, settings);
 				};
 			})(jQuery);
 //-------------------------------------------------------------------------------------------------------------------
 			$(function(){
-				$('.nav').TagsBar({
+				$('.nav').Tags({
 					sectionWrap:$('.section_wrap')
 				});
-				$('.section2_nav').TagsBar({
+				$('.section2_nav').Tags({
 					sectionWrap:$('.section2_wrap')
 				});
-				$('.section2_section4_nav').TagsBar({
+				$('.section2_section4_nav').Tags({
 					sectionWrap:$('.section2_section4_wrap')
 				});
 			});
-//			$(function() {
-//				$('.nav').TagsBar({
-//					sectionWrap:$('.section_wrap')
-//				});
-//				$('.section2_nav').TagsBar({
-//					sectionWrap:$('.section2_wrap')
-//				});
-//				$('.section2_section4_nav').TagsBar({
-//					sectionWrap:$('.section2_section4_wrap')
-//				});
-//			});
 		</script>
 	</head>
 	<body>
@@ -235,6 +224,9 @@
 					<section class="section2_section">AAA</section>
 					<section class="section2_section">BBB</section>
 					<section class="section2_section">
+						CCC
+					</section>
+					<section class="section2_section">
 						<nav class="section2_section4_nav">
 							<ul class="list-unstyled">
 								<li class="active">z</li>
@@ -249,9 +241,6 @@
 							<section class="section2_section4_section">C</section>
 							<section class="section2_section4_section">V</section>
 						</section>
-					</section>
-					<section class="section2_section">
-						DDD
 					</section>
 				</section>
 			</section>
