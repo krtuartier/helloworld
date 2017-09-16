@@ -109,6 +109,7 @@
 						});
 						//触摸移动页面控制
 						sectionWrap.on('touchstart', function(e) {
+							e.preventDefault();
 							var touch = e.originalEvent.targetTouches[0];
 							iStartx = touch.pageX;
 							iStartScroll = iScroll;
