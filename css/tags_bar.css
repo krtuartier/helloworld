@@ -1,6 +1,9 @@
 body {
   overflow-x: hidden;
 }
+.nav {
+  height: 1rem;
+}
 .nav ul {
   margin: 0;
 }
@@ -24,6 +27,9 @@ body {
 .section_wrap .section:nth-child(2) {
   overflow: hidden;
   position: relative;
+}
+.section_wrap .section:nth-child(2) .section2_nav {
+  height: 1rem;
 }
 .section_wrap .section:nth-child(2) .section2_nav ul {
   margin: 0;
@@ -54,6 +60,9 @@ body {
 .section_wrap .section:nth-child(2) .section2_wrap .section2_section:nth-child(3) {
   position: relative;
   overflow: hidden;
+}
+.section_wrap .section:nth-child(2) .section2_wrap .section2_section:nth-child(3) .section2_section4_nav {
+  height: 1rem;
 }
 .section_wrap .section:nth-child(2) .section2_wrap .section2_section:nth-child(3) .section2_section4_nav ul {
   margin: 0;

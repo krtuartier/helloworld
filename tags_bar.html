@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html id="ht" lang="zh">
 	<head>
 		<!--qq浏览器下是否可以全屏-->
 		<!--<meta name="x5-fullscreen" content="true" />-->
@@ -40,22 +40,19 @@
 						function navCss(){
 							$tagsbar.css({
 								'width': '100%',
-					            'height': opts.navH,
 								'position': 'relative'
 							});
 							$tagsbar.find('ul').css({
 								'width': '100%',
-					            'height': opts.navH
+					            'height': $tagsbar.height()
 							});
 							controlObj.css({
 								'width': vPer+'%',
-					            'height': opts.navH,
-					            'line-height': opts.navH
+					            'height': $tagsbar.height(),
+					            'line-height': $tagsbar.height()+'px'
 							});
 							
 						}
-						navCss();
-						
 						//navBar
 						var oNavB = $('<b class="active_border"></b>');
 						oNavB.css({
@@ -83,9 +80,11 @@
        							'height': '100%'
 							});
 						}
+						
 						setTimeout(function(){
+							navCss();
 							sectionCss();
-						},1);
+						},0);
 						
 						
 						var iW = $(window).width(); //屏幕的宽度
@@ -177,7 +176,6 @@
 				$.fn.TagsBar.defaults = {
 					sectionWrap:null,
 					barColor:'#004FB6',
-					navH:'1rem',
 					speed:200
 				};
 				$.fn.TagsBar.setDefaults = function(settings) {
@@ -185,8 +183,7 @@
 				};
 			})(jQuery);
 //-------------------------------------------------------------------------------------------------------------------
-			$(window).load(function(){
-				RootNodeFont();
+			$(function(){
 				$('.nav').TagsBar({
 					sectionWrap:$('.section_wrap')
 				});

@@ -8,6 +8,6 @@ function RootNodeFont() {
 		this.html.style.fontSize = this.hWidth / 7.5 + "px";
 	}
 }
-//window.onload = function() {
-//	RootNodeFont();
-//}
+window.onload = function() {
+	RootNodeFont();
+}
