@@ -144,7 +144,13 @@
 							}
 							iScroll = iStartScroll + dix;
 							iNow = -iScroll / iW;
-							iNow = (iNow - parseInt(iNow)) >= 0.5 ? Math.ceil(iNow) : Math.floor(iNow);
+							if(dix<=0&&dix/iW<=-.3){
+								iNow =Math.ceil(iNow);
+							}else if (dix>=0&&dix/iW>=.3) {
+								iNow =Math.floor(iNow);
+							}else{
+								iNow =Math.ceil(iNow);
+							}
 							if(iNow < 0) {
 								iNow = 0
 							} else if(iNow > section.length - 1) {
