@@ -3,6 +3,7 @@ body {
 }
 .nav {
   height: 1rem;
+  line-height: 1rem;
 }
 .nav ul {
   margin: 0;
@@ -29,6 +30,7 @@ body {
   position: relative;
 }
 .section_wrap .section:nth-child(2) .section2_nav {
+  line-height: 1rem;
   height: 1rem;
 }
 .section_wrap .section:nth-child(2) .section2_nav ul {
@@ -62,6 +64,7 @@ body {
   overflow: hidden;
 }
 .section_wrap .section:nth-child(2) .section2_wrap .section2_section:nth-child(3) .section2_section4_nav {
+  line-height: 1rem;
   height: 1rem;
 }
 .section_wrap .section:nth-child(2) .section2_wrap .section2_section:nth-child(3) .section2_section4_nav ul {
