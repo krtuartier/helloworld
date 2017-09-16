@@ -95,13 +95,13 @@
 								var oLiIndex=$(this).index();
 								controlObj.removeClass('active');
 								$(this).addClass('active');
-								sectionWrap.stop().animate({
+								sectionWrap.animate({
 									'left': 0-oLiIndex*100+'%'
 								}, opts.speed);
 								iNow=oLiIndex;
 								iScroll=-oLiIndex*iW;
 								iStartScroll=-oLiIndex*iW;
-								oNavB.stop().animate({
+								oNavB.animate({
 									'left': oLiIndex*vPer+'%'
 								}, opts.speed);
 								pageIndex(iNow);
@@ -153,10 +153,10 @@
 								iNow = section.length - 1;
 							}
 							iScroll = -iNow * iW;
-							sectionWrap.stop().animate({
+							sectionWrap.animate({
 								'left': 0-iNow*100+'%'
 							}, opts.speed);
-							oNavB.stop().animate({
+							oNavB.animate({
 								'left': iNow*vPer+'%'
 							}, opts.speed);
 							controlObj.removeClass('active');
