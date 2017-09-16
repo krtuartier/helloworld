@@ -115,6 +115,7 @@
 							iStartScroll = iScroll;
 						});
 						sectionWrap.on('touchmove', function(e) {
+							e.preventDefault();
 							var touch = e.originalEvent.targetTouches[0];
 							var dix = touch.pageX - iStartx;
 							if ((sectionWrap.attr('page')==0&&dix>0)||(sectionWrap.attr('page')==section.length-1&&dix<0)) {
@@ -132,6 +133,7 @@
 							});
 						});
 						sectionWrap.on('touchend', function(e) {
+							e.preventDefault();
 							var touch = e.originalEvent.changedTouches[0];
 							var dix = touch.pageX - iStartx;
 							if ((sectionWrap.attr('page')==0&&dix>0)||(sectionWrap.attr('page')==section.length-1&&dix<0)) {
