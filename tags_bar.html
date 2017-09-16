@@ -35,25 +35,29 @@
 						var sectionWrap=opts.sectionWrap?opts.sectionWrap:$tagsbar.next();//默认下一个元素为翻页的wrap
 						var section=sectionWrap.children();//一个section页面
 						var vPer=100/controlObj.length;//选项个数百分比
-						//设置nav的zIndex在section之上
-						var sectionWrapZI=parseInt(sectionWrap.css('zIndex'));
-						isNaN(sectionWrapZI)?$tagsbar.css('zIndex',1):$tagsbar.css('zIndex',sectionWrapZI+1);
 						
-						var childrenSectionWrapIndex=opts.childrenSectionWrap?opts.childrenSectionWrap.parent().index():null;
-						sectionWrap.attr('touchOpen',true);
-						sectionWrap.attr('grand',false);
-						sectionWrap.attr('little',false);
-						sectionWrap.attr('common',false);
-						if (!opts.parentSectionWrap){sectionWrap.attr('grand',true);}
-						if (!opts.childrenSectionWrap){sectionWrap.attr('little',true);}
-						if (opts.parentSectionWrap&&opts.childrenSectionWrap){sectionWrap.attr('common',true);}
-						var iW = $(window).width(); //屏幕的宽度
-						var iNow = 0; //第几张
-						var iStartx = 0; //初始位置
-						var iScroll = 0; //滚动距离
-						var iStartScroll = 0; //初始滚动距离
+						//nav样式
+						function navCss(){
+							$tagsbar.css({
+								'width': '100%',
+					            'height': opts.navH,
+								'position': 'relative'
+							});
+							$tagsbar.find('ul').css({
+								'width': '100%',
+					            'height': opts.navH
+							});
+							controlObj.css({
+								'width': vPer+'%',
+					            'height': opts.navH,
+					            'line-height': opts.navH
+							});
+							
+						}
+						navCss();
+						
+						//navBar
 						var oNavB = $('<b class="active_border"></b>');
-						$tagsbar.append(oNavB);
 						oNavB.css({
 							'width': vPer+'%',
 							'left': '0',
@@ -63,6 +67,33 @@
 							'background-color': opts.barColor,
 							'bottom': '0'
 						});
+						$tagsbar.append(oNavB);
+						
+						//section样式
+						function sectionCss(){
+							sectionWrap.css({
+							    'width': controlObj.length*100+'%',
+							    'height': sectionWrap.parent().height()-$tagsbar.height(),
+							    'position': 'absolute',
+							    'top': $tagsbar.height(),
+							    'left': 0,
+							});
+							section.css({
+								'width': vPer+'%',
+       							'height': '100%'
+							});
+						}
+						setTimeout(function(){
+							sectionCss();
+						},0);
+						
+						
+						var iW = $(window).width(); //屏幕的宽度
+						var iNow = 0; //第几张
+						var iStartx = 0; //初始位置
+						var iScroll = 0; //滚动距离
+						var iStartScroll = 0; //初始滚动距离
+						//点击nav控制
 						controlObj.each(function(){
 							$(this).click(function(){
 								var oLiIndex=$(this).index();
@@ -80,23 +111,23 @@
 								pageIndex(iNow);
 							});
 						});
+						//触摸移动页面控制
 						sectionWrap.on('touchstart', function(e) {
 							var touch = e.originalEvent.targetTouches[0];
 							iStartx = touch.pageX;
 							iStartScroll = iScroll;
 						});
 						sectionWrap.on('touchmove', function(e) {
+							e.stopPropagation();
 							var touch = e.originalEvent.targetTouches[0];
 							var dix = touch.pageX - iStartx;
+							if ((sectionWrap.attr('page')==0&&dix>0)||(sectionWrap.attr('page')==section.length-1&&dix<0)) {
+								return;
+							} else{
+								e.stopPropagation();
+							}
 							iScroll = iStartScroll + dix;
 							iNow = -iScroll / iW;
-							touchOpenFn(dix);
-							if (sectionWrap.attr('touchOpen')!='true') {
-								iNow=sectionWrap.attr('page');
-								iScroll=-iNow*iW;
-								iStartScroll=-iNow*iW;
-								return;
-							}
 							sectionWrap.css({
 								'left': 0-iNow*100+'%'
 							}, opts.speed);
@@ -107,6 +138,11 @@
 						sectionWrap.on('touchend', function(e) {
 							var touch = e.originalEvent.changedTouches[0];
 							var dix = touch.pageX - iStartx;
+							if ((sectionWrap.attr('page')==0&&dix>0)||(sectionWrap.attr('page')==section.length-1&&dix<0)) {
+								return;
+							} else{
+								e.stopPropagation();
+							}
 							iScroll = iStartScroll + dix;
 							iNow = -iScroll / iW;
 							iNow = (iNow - parseInt(iNow)) >= 0.5 ? Math.ceil(iNow) : Math.floor(iNow);
@@ -116,12 +152,6 @@
 								iNow = section.length - 1;
 							}
 							iScroll = -iNow * iW;
-							if (sectionWrap.attr('touchOpen')!='true') {
-								iNow=sectionWrap.attr('page');
-								iScroll=-iNow*iW;
-								iStartScroll=-iNow*iW;
-								return;
-							}
 							sectionWrap.stop().animate({
 								'left': 0-iNow*100+'%'
 							}, opts.speed);
@@ -136,43 +166,13 @@
 						function pageIndex(iNow){
 							sectionWrap.attr('page',iNow);
 						}
-						function touchOpenFn(x){
-							if (childrenSectionWrapIndex==sectionWrap.attr('page')) {
-								sectionWrap.attr('nest',true);
-							}else{
-								sectionWrap.attr('nest',false);
-							}
-							if(opts.parentSectionWrap){
-								if(sectionWrap.attr('page')==0&&x>0){
-									sectionWrap.attr('touchOpen',false);
-								}else if(sectionWrap.attr('page')==sectionWrap.children().length-1&&x<0){
-									sectionWrap.attr('touchOpen',false);
-								} else{
-									sectionWrap.attr('touchOpen',true);
-								}
-							}
-							if (opts.childrenSectionWrap&&sectionWrap.attr('nest')=='true') {
-								if (sectionWrap.attr('grand')=='true'&&opts.childrenSectionWrap.attr('nest')=='true') {
-									sectionWrap.attr('touchOpen',false);
-								}else{
-									if(opts.childrenSectionWrap.attr('page')==0&&x>0){
-										sectionWrap.attr('touchOpen',true);
-									}else if(opts.childrenSectionWrap.attr('page')==opts.childrenSectionWrap.children().length-1&&x<0){
-										sectionWrap.attr('touchOpen',true);
-									} else{
-										sectionWrap.attr('touchOpen',false);
-									}
-								}
-							}
-						}
 						pageIndex(iNow);
 					});
 				};
 				$.fn.TagsBar.defaults = {
 					sectionWrap:null,
-					childrenSectionWrap:null,
-					parentSectionWrap:null,
 					barColor:'#004FB6',
+					navH:'1rem',
 					speed:200
 				};
 				$.fn.TagsBar.setDefaults = function(settings) {
@@ -182,17 +182,13 @@
 //-------------------------------------------------------------------------------------------------------------------
 			$(function() {
 				$('.nav').TagsBar({
-					sectionWrap:$('.section_wrap'),
-					childrenSectionWrap:$('.section2_wrap')
+					sectionWrap:$('.section_wrap')
 				});
 				$('.section2_nav').TagsBar({
-					sectionWrap:$('.section2_wrap'),
-					parentSectionWrap:$('.section_wrap'),
-					childrenSectionWrap:$('.section2_section4_wrap')
+					sectionWrap:$('.section2_wrap')
 				});
 				$('.section2_section4_nav').TagsBar({
-					sectionWrap:$('.section2_section4_wrap'),
-					parentSectionWrap:$('.section2_wrap')
+					sectionWrap:$('.section2_section4_wrap')
 				});
 			});
 		</script>
@@ -243,7 +239,9 @@
 							<section class="section2_section4_section">V</section>
 						</section>
 					</section>
-					<section class="section2_section">DDD</section>
+					<section class="section2_section">
+						DDD
+					</section>
 				</section>
 			</section>
 			<section class="section">
