@@ -30,19 +30,19 @@
 				$.fn.Tags = function(options) {
 					var opts = $.extend({}, $.fn.Tags.defaults, options);
 					return this.each(function() {
-						var $tagsbar = $(this); //导航选项卡
-						var controlObj = $tagsbar.find('li'); //导航选项卡的选项li
-						var sectionWrap=opts.sectionWrap?opts.sectionWrap:$tagsbar.next();//默认下一个元素为翻页的wrap
+						var $tags = $(this);//导航选项卡
+						var controlObj = $tags.find('li');//导航选项卡的选项li
+						var sectionWrap=opts.sectionWrap?opts.sectionWrap:$tags.next();//默认下一个元素为翻页的wrap
 						var section=sectionWrap.children();//一个section页面
 						var vPer=100/controlObj.length;//选项个数百分比
 						
 						//nav样式
 						function navCss(){
-							$tagsbar.css({
+							$tags.css({
 								'width': '100%',
 								'position': 'relative'
 							});
-							$tagsbar.find('ul').css({
+							$tags.find('ul').css({
 								'width': '100%'
 							});
 							controlObj.css({
@@ -61,15 +61,15 @@
 							'background-color': opts.barColor,
 							'bottom': '0'
 						});
-						$tagsbar.append(oNavB);
+						$tags.append(oNavB);
 						
 						//section样式
 						function sectionCss(){
 							sectionWrap.css({
 							    'width': controlObj.length*100+'%',
-							    'height': sectionWrap.parent().height()-$tagsbar.height(),
+							    'height': sectionWrap.parent().height()-$tags.height(),
 							    'position': 'absolute',
-							    'top': $tagsbar.height(),
+							    'top': $tags.height(),
 							    'left': 0,
 							});
 							section.css({
