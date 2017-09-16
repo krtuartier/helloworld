@@ -112,11 +112,25 @@
 						});
 						//触摸移动页面控制
 						sectionWrap.on('touchstart', function(e) {
+							var control = navigator.control || {};
+							
+							if (control.gesture) {
+							
+							control.gesture(false);
+							
+							}
 							var touch = e.originalEvent.targetTouches[0];
 							iStartx = touch.pageX;
 							iStartScroll = iScroll;
 						});
 						sectionWrap.on('touchmove', function(e) {
+							var control = navigator.control || {};
+							
+							if (control.gesture) {
+							
+							control.gesture(false);
+							
+							}
 							var touch = e.originalEvent.targetTouches[0];
 							var dix = touch.pageX - iStartx;
 							if ((sectionWrap.attr('page')==0&&dix>0)||(sectionWrap.attr('page')==section.length-1&&dix<0)) {
@@ -134,6 +148,13 @@
 							}, opts.speed);
 						});
 						sectionWrap.on('touchend', function(e) {
+							var control = navigator.control || {};
+							
+							if (control.gesture) {
+							
+							control.gesture(false);
+							
+							}
 							var touch = e.originalEvent.changedTouches[0];
 							var dix = touch.pageX - iStartx;
 							if ((sectionWrap.attr('page')==0&&dix>0)||(sectionWrap.attr('page')==section.length-1&&dix<0)) {
