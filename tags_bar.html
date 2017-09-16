@@ -118,7 +118,6 @@
 							iStartScroll = iScroll;
 						});
 						sectionWrap.on('touchmove', function(e) {
-							e.stopPropagation();
 							var touch = e.originalEvent.targetTouches[0];
 							var dix = touch.pageX - iStartx;
 							if ((sectionWrap.attr('page')==0&&dix>0)||(sectionWrap.attr('page')==section.length-1&&dix<0)) {
@@ -180,7 +179,7 @@
 				};
 			})(jQuery);
 //-------------------------------------------------------------------------------------------------------------------
-			$(function() {
+			$(window).load(function(){
 				$('.nav').TagsBar({
 					sectionWrap:$('.section_wrap')
 				});
@@ -191,6 +190,17 @@
 					sectionWrap:$('.section2_section4_wrap')
 				});
 			});
+//			$(function() {
+//				$('.nav').TagsBar({
+//					sectionWrap:$('.section_wrap')
+//				});
+//				$('.section2_nav').TagsBar({
+//					sectionWrap:$('.section2_wrap')
+//				});
+//				$('.section2_section4_nav').TagsBar({
+//					sectionWrap:$('.section2_section4_wrap')
+//				});
+//			});
 		</script>
 	</head>
 	<body>
