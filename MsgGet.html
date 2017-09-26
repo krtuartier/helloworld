@@ -4,22 +4,35 @@
 		<title>MsgGet</title>
 		<script type="text/javascript">
 			window.onload=function(){
-				console.log(window.location.origin);
-				var url='https://krtuartier.github.io/helloworld/MsgSend.html';
-				var frame = document.createElement('iframe');
-		        frame.style.display = 'none';
-		        frame.src = url;
-		        document.body.appendChild(frame);
-//		        window.frames[0].postMessage('getcolor','https://krtuartier.github.io/');
-//		        window.addEventListener('message',function(e){
-//		            var color=e.data;
-//		            document.getElementById('color').style.backgroundColor=color;
-//		        },false);
+				var oRes=document.querySelector('.res');
+				var oFromUrl=document.querySelector('.fromUrl');
+				var oUrlInput=document.querySelector('.url_input');
+				var oHideFrame=document.querySelector('.hideFrame');
+				var oGetIt=document.querySelector('.getIt');
+				oFromUrl.innerHTML=(window.location+'').split('?')[1];
+				oUrlInput.oninput=function(){
+					oHideFrame.src=oUrlInput.value;
+				};
+				oGetIt.onclick=function(){
+					window.frames[0].postMessage('getJson',oUrlInput.value);
+			        window.addEventListener('message',function(e){
+			            var res=e.data;
+			            var aLis='';
+			            for(var i in res){
+			            	aLis+='<li>'+i+':'+res[i]+'</li>'
+			            }
+			            oRes.innerHTML=aLis;
+			        },false);
+				};
 			}
 		</script>
 	</head>
 	<body>
 		<ul class="res">
 		</ul>
+		<p class="fromUrl"></p>
+		<input type="text" class="url_input" value="" />
+		<iframe src="" class="hideFrame" style="display: none;"></iframe>
+		<button type="button" class="getIt">getIt</button>
 	</body>
 </html>

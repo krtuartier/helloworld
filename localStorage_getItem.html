@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script type="text/javascript">
+			window.onload=function(){
+				var localStorageP=document.querySelector('.localStorageP');
+				var res=window.localStorage.getItem('localStorageTest');
+				if (res) {
+					localStorageP.innerHTML=res;
+				} else{
+					localStorageP.innerHTML='fail';
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<p class="localStorageP"></p>
+	</body>
+</html>

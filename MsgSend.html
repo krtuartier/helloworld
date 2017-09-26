@@ -4,19 +4,23 @@
 		<title>MsgSend</title>
 		<script type="text/javascript">
 			window.onload=function(){
-				var oGAH=document.querySelector('.GAH');
 				var oForm=document.querySelector('.form');
+				var oTarget=document.querySelector('.target');
+				var oGAH=document.querySelector('.GAH');
 				var oJson={};
 				for(var i=0,l=oForm.children.length;i<l;i++){
-					var parse=oForm.children[i].innerHTML;
-					parse=parse.split(':');
+					var parse=oForm.children[i].innerHTML.split(':');
 					oJson[parse[0]]=parse[1];
-				}
-				console.log(oJson);
-	          	window.addEventListener('message',function(e){
-	              	if(e.source!=window.parent) return;
-	              	window.parent.postMessage(oJson,'*');
-	          	},false);
+				};
+	          	oGAH.onclick=function(){
+	          		window.open(oTarget.value+'?'+window.location+'','_self');
+	          	};
+				window.addEventListener('message',function(e){
+					if(e.source!=window.parent){return};
+					if (e.data=='getJson') {
+						window.parent.postMessage(oJson,'*');
+					}
+				},false);
 			}
 		</script>
 	</head>
@@ -27,6 +31,7 @@
 			<li>数量:9</li>
 			<li>总价:99999999999</li>
 		</ul>
+		URL : <input class="target" type="text" value="" />
 		<button type="button" class="GAH">
             go a head
        </button>
