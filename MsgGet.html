@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>MsgGet</title>
+		<script type="text/javascript">
+			window.onload=function(){
+				console.log(window.location.origin);
+				var url='https://krtuartier.github.io/helloworld/MsgSend.html';
+				var frame = document.createElement('iframe');
+		        frame.style.display = 'none';
+		        frame.src = url;
+		        document.body.appendChild(frame);
+//		        window.frames[0].postMessage('getcolor','https://krtuartier.github.io/');
+//		        window.addEventListener('message',function(e){
+//		            var color=e.data;
+//		            document.getElementById('color').style.backgroundColor=color;
+//		        },false);
+			}
+		</script>
+	</head>
+	<body>
+		<ul class="res">
+		</ul>
+	</body>
+</html>
