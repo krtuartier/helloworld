@@ -12,13 +12,21 @@
 					var parse=oForm.children[i].innerHTML.split(':');
 					oJson[parse[0]]=parse[1];
 				};
+				var setStorage=window.localStorage.setItem('jsonStorage',JSON.stringify(oJson));
 	          	oGAH.onclick=function(){
 	          		window.open(oTarget.value+'?'+window.location+'','_self');
 	          	};
+	          	var sendStorage=window.localStorage.getItem('jsonStorage');
+	          	console.log(sendStorage);
 				window.addEventListener('message',function(e){
 					if(e.source!=window.parent){return};
+					console.log(e);
 					if (e.data=='getJson') {
 						window.parent.postMessage(oJson,'*');
+					}else if(e.data=='getStorage'){
+						sendStorage=JSON.parse(sendStorage);
+						console.log(sendStorage);
+						window.parent.postMessage(sendStorage,'*');
 					}
 				},false);
 			}

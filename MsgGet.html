@@ -14,14 +14,19 @@
 					oHideFrame.src=oUrlInput.value;
 				};
 				oGetIt.onclick=function(){
-					window.frames[0].postMessage('getJson',oUrlInput.value);
+//					window.frames[0].postMessage('getJson',oUrlInput.value);
+					window.frames[0].postMessage('getStorage',oUrlInput.value);
 			        window.addEventListener('message',function(e){
 			            var res=e.data;
-			            var aLis='';
-			            for(var i in res){
-			            	aLis+='<li>'+i+':'+res[i]+'</li>'
-			            }
-			            oRes.innerHTML=aLis;
+			        	console.log(e);
+			        	console.log(res);
+//			            var aLis='';
+//			            for(var i in res){
+//			            	aLis+='<li>'+i+':'+res[i]+'</li>'
+//			            }
+//			            oRes.innerHTML=aLis;
+			            var getStorage=window.localStorage.getItem('jsonStorage');
+			            console.log(getStorage);
 			        },false);
 				};
 			}
